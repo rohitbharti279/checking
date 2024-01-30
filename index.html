@@ -1,82 +1,112 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Numbered Textarea</title>
+<style>
+   .editor {
+      display: inline-flex;
+      gap: 10px;
+      font-family: Consolas, "Courier New", Courier, monospace;
+      line-height: 21px;
+      background-color: #c2c2c2;
+      color: black;
+      border-radius: 2px;
+      /* padding: 20px 10px; */
+   }
+   textarea {
+      line-height: 21px;
+      overflow-y: hidden;
+      padding: 0;
+      border: 0;
+      background: #282a3a;
+      color: #fff;
+      min-width: 500px;
+      outline: none;
+      resize: none;
+      font-family: Consolas, "Courier New", Courier, monospace;
+   }
+   .numbers {
+      width: 20px;
+      text-align: right;
+   }
+   .numbers span {
+      counter-increment: linenumber;
+   }
+   .numbers span::before {
+      content: counter(linenumber);
+      display: block;
+      color: #506882;
+   }
+</style>
+<style>
+
+</style>
+</head>
+<body>
+   <div class="editor">
+      <div class="numbers" id="lineNumbers">
+         <span></span>
+      </div>
+      <textarea id="myTextarea" cols="30" rows="10"></textarea>
+   </div>
+<script>
+   document.addEventListener("DOMContentLoaded", function() {
+      const textarea = document.getElementById("myTextarea");
+      const numbers = document.getElementById("lineNumbers");
+
+      textarea.addEventListener("keyup", (e) => {
+         const num = e.target.value.split("\n").length;
+         numbers.innerHTML = Array(num).fill("<span></span>").join("");
+      });
+
+      textarea.addEventListener("keydown", (event) => {
+         if (event.key === "Tab") {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+
+            textarea.value =
+               textarea.value.substring(0, start) +
+               "\t" +
+               textarea.value.substring(end);
+
+            event.preventDefault();
+         }
+      });
+   });
+</script>
+
+</body>
+</html> -->
+
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="description" content="Validate, format, and compare two JSON documents.  See the differences between the objects instead of just the new lines and mixed up properties.">
-        <title>JSON Diff - The semantic JSON compare tool</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css"></link>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/abbott.min.css"></link>
 
-        <link rel="stylesheet" href="reset.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="throbber.css" type="text/css" media="screen">
-        <link rel="stylesheet" href="jdd.css" type="text/css" media="screen">
+<title>Numbered Textarea</title>
+<style>
 
-        <script src="jsl/jsl.format.js" type="text/javascript" charset="utf-8"></script>
-        <script src="jsl/jsl.parser.js" type="text/javascript" charset="utf-8"></script>
-        <script src="jdd.js" type="text/javascript" charset="utf-8"></script>
+</style>
+</head>
+<body>
+<textarea id="code" name="code"></textarea>
 
-        <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+<script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/perl/perl.min.js"></script>
 
-        ga('create', 'UA-26336682-2', 'auto');
-        ga('send', 'pageview');
-    	</script>
+<script>
+   var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+    lineNumbers: true,
+    mode: 'text/x-perl',
+    theme: 'abbott',
+});
+</script>
 
-		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9461091723533250"
-		     crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <div id="main">
-            <!-- <div class="header">
-                <h1>JSON Diff</h1>
-                <h3>The semantic JSON compare tool</h3>
-
-                <div class="weak">
-                    <p>
-                        Validate, format, and compare two JSON documents.  See the differences between the objects instead of just the new lines and mixed up properties.
-                    </p>
-
-                    <p>
-                        Created by <a href="http://www.zackgrossbart.com">Zack Grossbart</a>.  Get the <a href="https://github.com/zgrossbart/jdd">source code</a>.
-                    </p>
-
-                    <p>
-                        Big thanks owed to the team behind <a href="http://www.jsonlint.com">JSONLint</a>.
-                    </p>
-
-                </div>
-            </div> -->
-
-            <div class="initContainer">
-                <div class="left">
-                    <textarea spellcheck="false" id="textarealeft" placeholder="Enter JSON to compare, enter an URL to JSON" tabindex="1"></textarea>
-                    <pre id="errorLeft" class="error"></pre>
-                    <span class="fileInput">or <input type="file" id="fileLeft" onchange="jdd.handleFiles(this.files, 'left')" tabindex="4"></span>
-                </div>
-
-                <div class="center">
-                    <button id="compare" tabindex="3">Compare</button>
-                    <div class="throbber-loader"></div>
-                    <br/><br/>
-                    or try some<br /><a href="#" id="sample">sample data</a>
-                </div>
-
-                <div class="right">
-                    <textarea spellcheck="false" class="right" id="textarearight" placeholder="Enter JSON to compare, enter an URL to JSON" tabindex="2"></textarea>
-                    <pre id="errorRight" class="error"></pre>
-                    <span class="fileInput">or <input type="file" id="fileRight" onchange="jdd.handleFiles(this.files, 'right')" tabindex="5"></span>
-                </div>
-            </div>
-
-            <div class="diffcontainer">
-                <div id="report">
-                </div>
-                <pre id="out" class="left" class="codeBlock"></pre>
-                <pre id="out2" class="right" class="codeBlock"></pre>
-                <ul id="toolbar" class="toolbar"></ul>
-            </div>
-        </div>
-    </body>
+</body>
 </html>
