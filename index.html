@@ -1,112 +1,49 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Numbered Textarea</title>
-<style>
-   .editor {
-      display: inline-flex;
-      gap: 10px;
-      font-family: Consolas, "Courier New", Courier, monospace;
-      line-height: 21px;
-      background-color: #c2c2c2;
-      color: black;
-      border-radius: 2px;
-      /* padding: 20px 10px; */
-   }
-   textarea {
-      line-height: 21px;
-      overflow-y: hidden;
-      padding: 0;
-      border: 0;
-      background: #282a3a;
-      color: #fff;
-      min-width: 500px;
-      outline: none;
-      resize: none;
-      font-family: Consolas, "Courier New", Courier, monospace;
-   }
-   .numbers {
-      width: 20px;
-      text-align: right;
-   }
-   .numbers span {
-      counter-increment: linenumber;
-   }
-   .numbers span::before {
-      content: counter(linenumber);
-      display: block;
-      color: #506882;
-   }
-</style>
-<style>
-
-</style>
-</head>
-<body>
-   <div class="editor">
-      <div class="numbers" id="lineNumbers">
-         <span></span>
-      </div>
-      <textarea id="myTextarea" cols="30" rows="10"></textarea>
-   </div>
-<script>
-   document.addEventListener("DOMContentLoaded", function() {
-      const textarea = document.getElementById("myTextarea");
-      const numbers = document.getElementById("lineNumbers");
-
-      textarea.addEventListener("keyup", (e) => {
-         const num = e.target.value.split("\n").length;
-         numbers.innerHTML = Array(num).fill("<span></span>").join("");
-      });
-
-      textarea.addEventListener("keydown", (event) => {
-         if (event.key === "Tab") {
-            const start = textarea.selectionStart;
-            const end = textarea.selectionEnd;
-
-            textarea.value =
-               textarea.value.substring(0, start) +
-               "\t" +
-               textarea.value.substring(end);
-
-            event.preventDefault();
-         }
-      });
-   });
-</script>
-
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.css"></link>
-<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/theme/abbott.min.css"></link>
-
-<title>Numbered Textarea</title>
-<style>
-
-</style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toggle Password Visibility</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
-<textarea id="code" name="code"></textarea>
+    <div class="container">
+        <h1>Sign In</h1>
+        <form method="post">
+            <p>
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username">
+            </p>
+            <p>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" />
+                <i class="bi bi-eye-slash" id="togglePassword"></i>
+            </p>
+            <button type="submit" id="submit" class="submit">Log In</button>
+        </form>
+    </div>
+    <script>
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#password");
 
-<script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
-<script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/perl/perl.min.js"></script>
+        togglePassword.addEventListener("click", function () {
+            // toggle the type attribute
+            const type = password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+            
+            // toggle the icon
+            this.classList.toggle("bi-eye");
+        });
 
-<script>
-   var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
-    lineNumbers: true,
-    mode: 'text/x-perl',
-    theme: 'abbott',
-});
-</script>
-
+        // prevent form submit
+        const form = document.querySelector("form");
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+        });
+    </script>
 </body>
+
 </html>
